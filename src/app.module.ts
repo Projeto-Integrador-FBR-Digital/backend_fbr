@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CoverageAreaModule } from './coverageArea/coverage_area.module';
 
 
 @Module({
@@ -13,7 +14,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         database: 'db_fbr_ptoviders',
         entities: [],
         synchronize: true,
-      })
+      }),
+      CoverageAreaModule
     ],
   controllers: [],
   providers: [],
