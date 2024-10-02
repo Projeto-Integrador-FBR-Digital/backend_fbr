@@ -1,9 +1,16 @@
 import { IsNotEmpty } from 'class-validator';
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+} from 'typeorm';
+import { Offering } from '../../offering/entities/offering.entity';
 
 @Entity('coverage_areas')
 export class CoverageArea {
-  
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -44,4 +51,9 @@ export class CoverageArea {
 
   @UpdateDateColumn()
   updatedAt: Date; // Data de atualização do registro
+
+  @ManyToOne(() => Offering, (offering) => offering.coverageArea, {
+    onDelete: 'CASCADE',
+  })
+  offering: Offering;
 }

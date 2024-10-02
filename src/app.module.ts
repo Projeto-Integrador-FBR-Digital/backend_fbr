@@ -1,6 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CoverageAreaModule } from './coverageArea/coverage_area.module';
+import { CoverageArea } from './coverageArea/entities/coverage_area.entity';
+import { Offering } from './offering/entities/offering.entity';
+import { OfferingModule } from './offering/offering.module';
 
 
 @Module({
@@ -12,10 +15,11 @@ import { CoverageAreaModule } from './coverageArea/coverage_area.module';
         username: 'root',
         password: 'root',
         database: 'db_fbr_ptoviders',
-        entities: [],
+        entities: [CoverageArea, Offering],
         synchronize: true,
       }),
-      CoverageAreaModule
+      CoverageAreaModule,
+      OfferingModule
     ],
   controllers: [],
   providers: [],
