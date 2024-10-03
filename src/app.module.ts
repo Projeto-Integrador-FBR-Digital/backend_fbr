@@ -6,6 +6,8 @@ import { Offering } from './offering/entities/offering.entity';
 import { OfferingModule } from './offering/offering.module';
 import { Infrastructure } from './infrastructure/entities/infrastruture.entity';
 import { InfrastructureModule } from './infrastructure/infrastructure.module';
+import { RequestModule } from './request/request.module';
+import { Request } from './request/entities/request.entity';
 
 
 @Module({
@@ -17,12 +19,13 @@ import { InfrastructureModule } from './infrastructure/infrastructure.module';
         username: 'root',
         password: 'root',
         database: 'db_fbr_ptoviders',
-        entities: [CoverageArea, Offering, Infrastructure],
+        entities: [CoverageArea, Offering, Infrastructure, Request],
         synchronize: true,
       }),
       CoverageAreaModule,
       OfferingModule,
-      InfrastructureModule
+      InfrastructureModule,
+      RequestModule
     ],
   controllers: [],
   providers: [],
