@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Infrastructure } from "../entities/infrastruture.entity";
-import { Repository } from "typeorm";
+import { DeleteResult, Repository } from "typeorm";
 
 @Injectable()
 export class InfrastructureService {
@@ -40,5 +40,15 @@ export class InfrastructureService {
             throw new HttpException('Infraestrutura não encontrada!', HttpStatus.NOT_FOUND);
 
         return await this.infrastrutureRepository.save(infrastructure)
+    }
+
+    async delete(id: number): Promise<DeleteResult> {
+
+        let findInfrastructure = await this.findById(id);
+
+        if(!findInfrastructure)
+            throw new HttpException('Infraestrutura não encontrada!', HttpStatus.NOT_FOUND);
+
+        return await this.infrastrutureRepository.delete(id)
     }
 }
