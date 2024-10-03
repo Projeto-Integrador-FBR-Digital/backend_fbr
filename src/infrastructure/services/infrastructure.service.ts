@@ -31,4 +31,14 @@ export class InfrastructureService {
     async create(infrastructure: Infrastructure): Promise<Infrastructure> {
         return await this.infrastrutureRepository.save(infrastructure)
     }
+
+    async update(infrastructure: Infrastructure): Promise<Infrastructure> {
+
+        let findInfrastructure: Infrastructure = await this.findById(infrastructure.id);
+
+        if(!findInfrastructure || infrastructure.id)
+            throw new HttpException('Infraestrutura não encontrada!', HttpStatus.NOT_FOUND);
+
+        return await this.infrastrutureRepository.save(infrastructure)
+    }
 }
