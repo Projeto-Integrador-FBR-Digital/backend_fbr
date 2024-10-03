@@ -27,4 +27,8 @@ export class InfrastructureService {
 
         return infrastructure
     }
+
+    async create(infrastructure: Infrastructure): Promise<Infrastructure> {
+        return await this.infrastrutureRepository.save(infrastructure)
+    }
 }

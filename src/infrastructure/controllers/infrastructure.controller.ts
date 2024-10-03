@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, HttpStatus, Param, ParseIntPipe } from "@nestjs/common";
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post } from "@nestjs/common";
 import { InfrastructureService } from "../services/infrastructure.service";
 import { Infrastructure } from "../entities/infrastruture.entity";
 
@@ -16,6 +16,12 @@ export class InfrastructureController{
     @HttpCode(HttpStatus.OK)
     findById(@Param('id', ParseIntPipe) id: number): Promise<Infrastructure> {
         return this.infrastructureService.findById(id)
+    }
+
+    @Post()
+    @HttpCode(HttpStatus.CREATED)
+    create(@Body() infrastructure: Infrastructure): Promise<Infrastructure> {
+        return this.infrastructureService.create(infrastructure);
     }
 
 }
