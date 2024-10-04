@@ -2,19 +2,22 @@ import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { DeleteResult, ILike, Repository } from "typeorm";
 import { Offering } from "../entities/offering.entity";
+import { ProviderService } from "../../provider/services/provider.service";
 
 
 @Injectable()
 export class OfferingService {
     constructor(
         @InjectRepository(Offering)
-        private offeringRepository: Repository<Offering>
+        private offeringRepository: Repository<Offering>,
+        private providerService: ProviderService
     ) { }
 
     async findAll(): Promise<Offering[]> {
         return await this.offeringRepository.find({
             relations: {
-                coverageArea: true
+                coverageArea: true,
+                provider: true
             }
         });
     }
@@ -26,7 +29,8 @@ export class OfferingService {
                 id
             },
             relations: {
-                coverageArea: true
+                coverageArea: true,
+                provider: true
             }
         });
 
@@ -42,12 +46,24 @@ export class OfferingService {
                 tipoPlano: ILike(`%${tipoPlano}%`)
             },
             relations: {
-                coverageArea: true
+                coverageArea: true,
+                provider: true
             }
         })
     }
 
     async create(offering: Offering): Promise<Offering> {
+
+        if  (offering.provider){
+
+            let provider = await this.providerService.findById(offering.provider.id)
+
+            if (!provider)
+                throw new HttpException('Provedor não encontrado!', HttpStatus.NOT_FOUND);
+
+            return await this.offeringRepository.save(offering)
+        }
+
         return await this.offeringRepository.save(offering);
     }
 
@@ -57,6 +73,16 @@ export class OfferingService {
 
         if (!findOffering || !offering.id)
             throw new HttpException('Serviço não encontrado!', HttpStatus.NOT_FOUND);
+
+        if (offering.provider) {
+
+            let provider = await this.providerService.findById(offering.provider.id)
+
+            if (!provider)
+                throw new HttpException('Provedor não encontrado!', HttpStatus.NOT_FOUND)
+
+            return await this.offeringRepository.save(offering)
+        }
 
         return await this.offeringRepository.save(offering);
     }

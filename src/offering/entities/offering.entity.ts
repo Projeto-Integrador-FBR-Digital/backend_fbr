@@ -1,6 +1,7 @@
 import { IsNotEmpty } from 'class-validator';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { CoverageArea } from '../../coverageArea/entities/coverage_area.entity';
+import { Provider } from '../../provider/entities/provider.entity';
 
 @Entity({ name: 'tb_offering' })
 export class Offering {
@@ -30,4 +31,10 @@ export class Offering {
 
   @OneToMany(() => CoverageArea, (coverageArea) => coverageArea.offering)
   coverageArea: CoverageArea[]
+
+  @ManyToMany(() => Provider, (provider) => provider.offering, {
+    onDelete: "CASCADE"
+  })
+  provider: Provider
+
 }
