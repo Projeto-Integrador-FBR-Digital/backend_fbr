@@ -2,16 +2,22 @@ import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Infrastructure } from "../entities/infrastruture.entity";
 import { DeleteResult, Repository } from "typeorm";
+import { ProviderService } from "../../provider/services/provider.service";
 
 @Injectable()
 export class InfrastructureService {
     constructor(
         @InjectRepository(Infrastructure)
-        private infrastrutureRepository: Repository<Infrastructure>
+        private infrastrutureRepository: Repository<Infrastructure>,
+        private providerService: ProviderService
     ) {}
 
     async findAll(): Promise<Infrastructure[]> {
-        return await this.infrastrutureRepository.find();
+        return await this.infrastrutureRepository.find({
+            relations: {
+                provider: true
+            }
+        });
     }
 
     async findById(id: number): Promise<Infrastructure> {
@@ -19,6 +25,9 @@ export class InfrastructureService {
         let infrastructure = await this.infrastrutureRepository.findOne({
             where: {
                 id
+            },
+            relations: {
+                provider: true
             }
         })
 
@@ -29,6 +38,17 @@ export class InfrastructureService {
     }
 
     async create(infrastructure: Infrastructure): Promise<Infrastructure> {
+
+        if (infrastructure.provider){
+
+            let provider = await this.providerService.findById(infrastructure.provider.id)
+
+            if (!provider)
+                throw new HttpException('Provedor não encontrado!', HttpStatus.NOT_FOUND)
+
+            return await this.infrastrutureRepository.save(infrastructure)
+        }
+
         return await this.infrastrutureRepository.save(infrastructure)
     }
 
@@ -38,6 +58,16 @@ export class InfrastructureService {
 
         if(!findInfrastructure || infrastructure.id)
             throw new HttpException('Infraestrutura não encontrada!', HttpStatus.NOT_FOUND);
+
+        if (infrastructure.provider){
+
+            let provider = await this.providerService.findById(infrastructure.provider.id)
+
+            if (!provider)
+                throw new HttpException('Provedor não encontrado!', HttpStatus.NOT_FOUND)
+
+            return await this.infrastrutureRepository.save(infrastructure)
+        }
 
         return await this.infrastrutureRepository.save(infrastructure)
     }

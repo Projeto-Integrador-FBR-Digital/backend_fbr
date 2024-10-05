@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Provider } from '../../provider/entities/provider.entity';
 
 @Entity({ name: 'tb_infrastructure' })
 export class Infrastructure {
@@ -13,4 +14,9 @@ export class Infrastructure {
 
   @Column({ length: 255 })
   backbone: string;
+
+  @ManyToOne(() => Provider, (provider) => provider.infrastructure, {
+    onDelete: 'CASCADE',
+  })
+  provider: Provider;
 }

@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Provider } from '../../provider/entities/provider.entity';
 
 @Entity({ name: 'tb_request' })
 export class Request {
@@ -34,4 +35,9 @@ export class Request {
   //     onDelete: 'CASCADE',
   //   })
   //   servico: Offering;
+
+  @ManyToOne(() => Provider, (provider) => provider.request, {
+         onDelete: 'CASCADE',
+       })
+       provider: Provider;
 }

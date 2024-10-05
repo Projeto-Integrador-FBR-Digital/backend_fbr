@@ -2,16 +2,22 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Request } from '../entities/request.entity';
 import { DeleteResult, Repository } from 'typeorm';
+import { ProviderService } from '../../provider/services/provider.service';
 
 @Injectable()
 export class RequestService {
   constructor(
     @InjectRepository(Request)
     private requestRepository: Repository<Request>,
+    private providerService: ProviderService
   ) {}
 
   async findAll(): Promise<Request[]> {
-    return await this.requestRepository.find();
+    return await this.requestRepository.find({
+      relations: {
+        provider: true
+    }
+    });
   }
 
   async findById(id: number): Promise<Request> {
@@ -19,6 +25,9 @@ export class RequestService {
       where: {
         id,
       },
+      relations: {
+        provider: true
+    }
     });
 
     if (!request)
@@ -32,10 +41,24 @@ export class RequestService {
       where: {
         status,
       },
+      relations: {
+        provider: true
+    }
     });
   }
 
   async create(request: Request): Promise<Request> {
+
+    if (request.provider){
+
+      let provider = await this.providerService.findById(request.provider.id)
+
+      if (!provider)
+        throw new HttpException('Provedor não encontrado!', HttpStatus.NOT_FOUND)
+
+      return await this.requestRepository.save(request)
+    }
+
     return await this.requestRepository.save(request)
   }
 
@@ -45,6 +68,16 @@ export class RequestService {
 
     if (!findRequest || !request.id)
         throw new HttpException("Demanda não encotrada!", HttpStatus.NOT_FOUND)
+
+    if (request.provider){
+
+      let provider = await this.providerService.findById(request.provider.id)
+
+      if (!provider)
+        throw new HttpException("Provedor não encontrado!", HttpStatus.NOT_FOUND)
+
+      return await this.requestRepository.save(request)
+    }
 
     return await this.requestRepository.save(request)
   }

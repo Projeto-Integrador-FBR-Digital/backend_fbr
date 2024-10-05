@@ -1,6 +1,8 @@
 import { IsNotEmpty } from "class-validator"
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm"
 import { Offering } from "../../offering/entities/offering.entity"
+import { Infrastructure } from "../../infrastructure/entities/infrastruture.entity"
+import { Request } from "../../request/entities/request.entity"
 
 @Entity({name: "tb_provider"})
 export class Provider {
@@ -30,4 +32,10 @@ export class Provider {
 
     @OneToMany(() => Offering, (offering) => offering.provider)
     offering: Offering[]
+
+    @OneToMany(() => Infrastructure, (infrastructure) => infrastructure.provider)
+    infrastructure: Infrastructure[]
+
+    @OneToMany(() => Request, (request) => request.provider)
+    request: Request[]
 }
