@@ -13,7 +13,8 @@ export class ProviderService {
     async findAll(): Promise<Provider[]> {
         return await this.providerRepository.find({
             relations: {
-                offering: true
+                offering: true,
+                user: true
             }
         });
     }
@@ -25,7 +26,8 @@ export class ProviderService {
                 id
             },
             relations: {
-                offering: true
+                offering: true,
+                user: true
             }
         });
 
@@ -41,7 +43,8 @@ export class ProviderService {
                 corporate_name: ILike(`%${corporate_name}%`)
             },
             relations: {
-                offering: true
+                offering: true,
+                user: true
             }
         })
     }

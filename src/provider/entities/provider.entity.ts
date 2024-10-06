@@ -1,8 +1,9 @@
 import { IsNotEmpty } from "class-validator"
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm"
 import { Offering } from "../../offering/entities/offering.entity"
 import { Infrastructure } from "../../infrastructure/entities/infrastruture.entity"
 import { Request } from "../../request/entities/request.entity"
+import { User } from "../../user/entities/user.entity"
 
 @Entity({name: "tb_provider"})
 export class Provider {
@@ -38,4 +39,9 @@ export class Provider {
 
     @OneToMany(() => Request, (request) => request.provider)
     request: Request[]
+
+    @ManyToOne(() => User, (user) => user.provider, {
+        onDelete: "CASCADE"
+    })
+    user: User
 }

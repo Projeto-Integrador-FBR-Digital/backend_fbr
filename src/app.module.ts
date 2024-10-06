@@ -11,6 +11,8 @@ import { Request } from './request/entities/request.entity';
 import { Provider } from './provider/entities/provider.entity';
 import { ProviderModule } from './provider/provider.module';
 import { AuthModule } from './auth/auth.module';
+import { User } from './user/entities/user.entity';
+import { UserModule } from './user/user.module';
 
 
 @Module({
@@ -22,7 +24,7 @@ import { AuthModule } from './auth/auth.module';
         username: 'root',
         password: 'root',
         database: 'db_fbr_ptoviders',
-        entities: [CoverageArea, Offering, Infrastructure, Request, Provider],
+        entities: [CoverageArea, Offering, Infrastructure, Request, Provider, User],
         synchronize: true,
       }),
       CoverageAreaModule,
@@ -30,7 +32,8 @@ import { AuthModule } from './auth/auth.module';
       InfrastructureModule,
       RequestModule,
       ProviderModule,
-      AuthModule
+      AuthModule,
+      UserModule
     ],
   controllers: [],
   providers: [],
