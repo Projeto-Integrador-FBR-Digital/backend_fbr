@@ -1,7 +1,8 @@
+import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
 import { CoverageArea } from '../entities/coverage_area.entity';
 import { CoverageAreaService } from './../services/coverage_area.service';
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
-
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put, UseGuards } from "@nestjs/common";
+@UseGuards(JwtAuthGuard)
 @Controller("/coverage_area")
 export class CoverageAreaController {
     constructor (private readonly coverageAreaService: CoverageAreaService) { }

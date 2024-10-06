@@ -1,4 +1,4 @@
-import { Delete } from '@nestjs/common';
+import { Delete, UseGuards } from '@nestjs/common';
 import {
     Body,
   Controller,
@@ -12,7 +12,9 @@ import {
 } from '@nestjs/common';
 import { RequestService } from '../services/request.service';
 import { Request } from '../entities/request.entity';
+import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('/request')
 export class RequestController {
   constructor(private readonly requestService: RequestService) {}

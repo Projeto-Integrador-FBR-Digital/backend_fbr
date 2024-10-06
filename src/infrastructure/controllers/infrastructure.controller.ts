@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put, UseGuards } from "@nestjs/common";
 import { InfrastructureService } from "../services/infrastructure.service";
 import { Infrastructure } from "../entities/infrastruture.entity";
-
+import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
+@UseGuards(JwtAuthGuard)
 @Controller('/infrastructure')
 export class InfrastructureController{
     constructor(private readonly infrastructureService: InfrastructureService) {}
