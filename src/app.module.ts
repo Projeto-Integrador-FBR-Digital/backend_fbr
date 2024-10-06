@@ -10,6 +10,7 @@ import { RequestModule } from './request/request.module';
 import { Request } from './request/entities/request.entity';
 import { Provider } from './provider/entities/provider.entity';
 import { ProviderModule } from './provider/provider.module';
+import { AuthModule } from './auth/auth.module';
 
 
 @Module({
@@ -28,7 +29,8 @@ import { ProviderModule } from './provider/provider.module';
       OfferingModule,
       InfrastructureModule,
       RequestModule,
-      ProviderModule
+      ProviderModule,
+      AuthModule
     ],
   controllers: [],
   providers: [],
