@@ -13,6 +13,7 @@ import { ProviderModule } from './provider/provider.module';
 import { AuthModule } from './auth/auth.module';
 import { User } from './user/entities/user.entity';
 import { UserModule } from './user/user.module';
+import { AppController } from './app.controller';
 
 
 @Module({
@@ -35,7 +36,7 @@ import { UserModule } from './user/user.module';
       AuthModule,
       UserModule
     ],
-  controllers: [],
+  controllers: [AppController],
   providers: [],
 })
 export class AppModule {}

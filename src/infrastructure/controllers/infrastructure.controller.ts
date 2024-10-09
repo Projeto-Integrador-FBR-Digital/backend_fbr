@@ -2,8 +2,11 @@ import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPip
 import { InfrastructureService } from "../services/infrastructure.service";
 import { Infrastructure } from "../entities/infrastruture.entity";
 import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+@ApiTags('Infrastructure')
 @UseGuards(JwtAuthGuard)
 @Controller('/infrastructure')
+@ApiBearerAuth()
 export class InfrastructureController{
     constructor(private readonly infrastructureService: InfrastructureService) {}
 

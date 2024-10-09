@@ -1,9 +1,12 @@
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
 import { CoverageArea } from '../entities/coverage_area.entity';
 import { CoverageAreaService } from './../services/coverage_area.service';
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put, UseGuards } from "@nestjs/common";
+@ApiTags('CoverageArea')
 @UseGuards(JwtAuthGuard)
 @Controller("/coverage_area")
+@ApiBearerAuth()
 export class CoverageAreaController {
     constructor (private readonly coverageAreaService: CoverageAreaService) { }
 

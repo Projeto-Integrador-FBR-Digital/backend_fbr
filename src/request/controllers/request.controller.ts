@@ -13,9 +13,12 @@ import {
 import { RequestService } from '../services/request.service';
 import { Request } from '../entities/request.entity';
 import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Request')
 @UseGuards(JwtAuthGuard)
 @Controller('/request')
+@ApiBearerAuth()
 export class RequestController {
   constructor(private readonly requestService: RequestService) {}
 

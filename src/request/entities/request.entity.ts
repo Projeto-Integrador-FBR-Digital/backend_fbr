@@ -1,17 +1,23 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Provider } from '../../provider/entities/provider.entity';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity({ name: 'tb_request' })
 export class Request {
+ 
+  @ApiProperty() 
   @PrimaryGeneratedColumn()
   id: number;
 
+  @ApiProperty() 
   @Column({ type: 'text' })
   descricao: string;
 
+  @ApiProperty() 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   data_criacao: Date;
 
+  @ApiProperty() 
   @Column({
     type: 'enum',
     enum: ['pendente', 'aceita', 'recusada', 'concluída'],
@@ -19,10 +25,11 @@ export class Request {
   })
   status: string;
 
-  
+  @ApiProperty() 
   @Column({ type: 'varchar', length: 255 })
   solicitante_email: string;
   
+  @ApiProperty() 
   @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
   valor_proposto: number;
   
@@ -36,6 +43,7 @@ export class Request {
   //   })
   //   servico: Offering;
 
+  @ApiProperty({type: ()=> Provider}) 
   @ManyToOne(() => Provider, (provider) => provider.request, {
          onDelete: 'CASCADE',
        })
